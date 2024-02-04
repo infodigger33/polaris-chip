@@ -19,6 +19,12 @@
     polaris-chip {
       margin: 16px;
     }
+
+    h3 {
+      margin: 16px;
+      padding: 8px;
+    }
+
   </style>
   <title>polaris-chip / my-card</title>
 </head>
@@ -32,17 +38,93 @@
   <polaris-chip title="Grants and Donations"></polaris-chip>
   <!-- this is going to take the tag and change the title -->
 
-  <h1>my-card</h1>
-  <my-card title="Nittany Lion" image="https://cdn.vox-cdn.com/thumbor/5TzJl6L2AINY150a4hvd-7BNYZ0=/1400x1050/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/19591281/Nittany_Lion_100232.jpg" bodyText="Mascot of Pennsylvania State University" link="https://hax.psu.edu" border-color="#E6AD00" button-color="#284C6E"></my-card>
-  <my-card title="Brutus the Buckeye" image="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Brutus_Buckeye_in_2017.jpg/500px-Brutus_Buckeye_in_2017.jpg" bodyText="Mascot of The Ohio State University" link="https://hax.psu.edu" border-color="#BB0000" button-color="#666666"></my-card>
-  <my-card title="Card 3" image="https://example.com/card3-image.jpg" bodyText="Card 3 body text" link="https://example.com/card3"></my-card>
-  <my-card title="Card 4" image="https://example.com/card4-image.jpg" bodyText="Card 4 body text" link="https://example.com/card4"></my-card>
-  <my-card title="Card 5" image="https://example.com/card5-image.jpg" bodyText="Card 5 body text" link="https://example.com/card5"></my-card>
+  <h1>Mascots!</h1>
+  <h2>Controls</h2>
+  <h3>
+    <button id="duplicate">Duplicate Last Card</button>
+    <button id="changetext">Change Text</button>
+    <button id="changeimage">Change Image</button>
+    <button id="changebg">Change Background</button>
+    <button id="delete">Delete Last Card</button>
+  </h3>
 
+  <div id="cardlist">
+    <my-card title="Nittany Lion" image="https://cdn.vox-cdn.com/thumbor/5TzJl6L2AINY150a4hvd-7BNYZ0=/1400x1050/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/19591281/Nittany_Lion_100232.jpg" bodyText="Mascot of Pennsylvania State University" link="https://hax.psu.edu" borderColor="#E6AD00" buttonColor="#284C6E"></my-card>
+    <my-card title="Brutus Buckeye" image="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Brutus_Buckeye_in_2017.jpg/500px-Brutus_Buckeye_in_2017.jpg" bodyText="Mascot of The Ohio State University" link="https://hax.psu.edu" borderColor="#BB0000" buttonColor="#666666"></my-card>
+    <my-card title="Bevo" image="https://sportsdaydfw.imgix.net/1567791189-UTVW_AL041.JPG" bodyText="Mascot of University of Texas at Austin" link="https://hax.psu.edu" borderColor="#BF5700" buttonColor="#333F48"></my-card>
+    <my-card title="The Oregon Duck" image="https://content.kgw.com/photo/2015/10/31/635555543046621545-ducks_460104_ver1.0.jpg" bodyText="Mascot of University of Oregon" link="https://hax.psu.edu" borderColor="#154733" buttonColor="#FEE123"></my-card>
+    <my-card title="Rameses" image="https://blogs.lib.unc.edu/hill/wp-content/uploads/sites/2/2016/03/Current-Rameses-.jpg" bodyText="Mascot of University of North Carolina at Chapel Hill" link="https://hax.psu.edu" borderColor="#7BAFD4" buttonColor="#13294B"></my-card>
+  </div>
 
   <!-- this is what is bringing in the definition for this tag -->
   <script type="module" src="./src/polaris-chip.js"></script>
   <script type="module" src="./src/my-card.js"></script>
-</body>
 
+  <script>
+    document.querySelector('#duplicate').addEventListener('click', function(event) {
+      const cards = document.querySelectorAll('my-card');
+      if (cards.length > 0 && cards.length < 10) {
+        const lastCard = cards[cards.length - 1];
+        const newCard = lastCard.cloneNode(true);
+        document.querySelector('#cardlist').appendChild(newCard);
+      }
+    });
+    
+    document.querySelector('#changetext').addEventListener('click', function(e) {
+      // Selecting the first 'my-card' element
+      const myCard = document.querySelector('my-card');
+
+      // Accessing shadow DOM
+      const shadowRoot = myCard.shadowRoot;
+
+      // Selecting elements inside shadow DOM
+      const cardTitle = shadowRoot.querySelector('.card-title');
+      const cardDescription = shadowRoot.querySelector('.card-description');
+
+      // Replacing elements
+      cardTitle.textContent = "COOKIE MONSTER";
+      cardDescription.textContent = "ME LOVE COOKIE";
+    });
+    
+    document.querySelector('#changeimage').addEventListener('click', function(e) {
+      // Selecting the first 'my-card' element
+      const myCard = document.querySelector('my-card');
+
+      // Accessing shadow DOM
+      const shadowRoot = myCard.shadowRoot;
+
+      // Selecting element inside shadow DOM
+      const cardImage = shadowRoot.querySelector('.card-img');
+
+      // Replacing element
+      cardImage.setAttribute('src', 'https://hips.hearstapps.com/hmg-prod/images/sesame-street-muppet-cookie-monster-poses-for-photographs-news-photo-1701191526.jpg?crop=0.673xw:1.00xh;0.213xw,0&resize=1200:*');
+    });
+    
+    document.querySelector('#changebg').addEventListener('click', function (e) {
+      // Selecting all 'my-card' elements
+      const myCards = document.querySelectorAll('my-card');
+
+      
+      myCards.forEach(myCard => {
+        // Accessing shadow DOM
+        const shadowRoot = myCard.shadowRoot;
+        // Selecting all '.card' elements inside shadow DOM
+        const cards = shadowRoot.querySelectorAll('.card');
+
+        cards.forEach(card => {
+          card.classList.toggle('change-color');
+        });
+      });
+    });
+
+    document.querySelector('#delete').addEventListener('click', function(e) {
+      const cards = document.querySelectorAll('my-card');
+      const lastCard = cards[cards.length - 1];
+    
+      if (cards.length !== 1) {
+        lastCard.remove();
+      }
+    });
+  </script>
+</body>
 </html>

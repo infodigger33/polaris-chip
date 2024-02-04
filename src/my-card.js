@@ -18,6 +18,10 @@ export class MyCard extends LitElement {
 
   static get styles() {
     return css`
+      :host {
+        display: inline-flex;
+      }
+
       body {
         font-family: 'Arial', sans-serif;
         margin: 0;
@@ -60,8 +64,15 @@ export class MyCard extends LitElement {
       }
 
       .card button {
-        padding: 8px 16px;
         display: none;
+        margin: 2px 0;
+      }
+
+      #control-wrapper button {
+        margin: 6px 0 0 6px;
+      }
+
+      .card button {
         margin: 2px 0;
         background-color: var(--button-color, #284C6E);
         color: #fff;
@@ -70,9 +81,13 @@ export class MyCard extends LitElement {
         border-radius: 4px;
       }
 
-      .card button:hover {
+      .card button:hover, #control-wrapper button:hover{
         background-color: #0D141F;
         transition: background-color 0.3s ease;
+      }
+
+      .change-color {
+        background-color: #70707047;
       }
 
       @media only screen and (max-width: 800px) and (min-width: 501px) {
@@ -100,12 +115,12 @@ export class MyCard extends LitElement {
   render() {
     return html`
     <div id="cardlist" class="card-list">
-      <section class="card">
+      <section class="card" style="--border-color: ${this.borderColor};">
         <img src="${this.image}" alt="${this.title}" class="card-img">
         <div class="card-content">
           <h2 class="card-title">${this.title}</h2>
           <p class="card-description">${this.bodyText}</p>
-          <a href="${this.link}"><button>Details</button></a>
+          <a href="${this.link}"><button style="--button-color: ${this.buttonColor};">Details</button></a>
         </div>
       </section>
     </div>`;
@@ -117,8 +132,8 @@ export class MyCard extends LitElement {
       image: { type: String },
       bodyText: { type: String },
       link: { type: String },
-      '--border-color': { type: String },
-      '--button-color': { type: String },
+      borderColor: { type: String },
+      buttonColor: { type: String },
     };
   }
 }
