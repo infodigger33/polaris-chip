@@ -74,8 +74,10 @@ export class MyCard extends LitElement {
 
       .card button {
         margin: 2px 0;
+        padding: 10px 15px;
         background-color: var(--button-color, #284C6E);
         color: #fff;
+        font-size: 16px;
         text-decoration: none;
         border: none;
         border-radius: 4px;
