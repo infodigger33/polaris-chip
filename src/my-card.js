@@ -8,12 +8,13 @@ export class MyCard extends LitElement {
 
   constructor() {
     super();
-    this.title = "Title goes here";
-    this.image = "Image goes here";
-    this.bodyText = "Body Text goes here";
-    this.link = "Link goes here";
-    this.borderColor = "Border color goes here";
-    this.buttonColor = "Button color goes here";
+    this.title = "Title";
+    this.image = "Image";
+    this.bodyText = "Body Text";
+    this.link = "Link";
+    this.borderColor = "#000000";
+    this.buttonColor = "#000000";
+    this.fancy = false;
   }
 
   static get styles() {
@@ -22,13 +23,29 @@ export class MyCard extends LitElement {
         display: inline-flex;
       }
 
-      body {
-        font-family: 'Arial', sans-serif;
-        margin: 0;
-        padding: 0;
-        align-items: center;
-        justify-content: center;
-        height: 500px;
+      :host([fancy]) .card {
+        background-color: var(--border-color);
+        color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.4);
+        margin: 16px;
+      }
+
+      details summary {
+        text-align: left;
+        font-size: 20px;
+        padding: 8px 0;
+      }
+
+      details[open] summary {
+        font-weight: bold;
+      }
+  
+      details div {
+        text-align: left;
+        padding: 8px;
+        height: 35px;
+        overflow: auto;
       }
 
       #cardlist {
@@ -37,7 +54,7 @@ export class MyCard extends LitElement {
 
       .card {
         max-width: 400px;
-        border: 2px solid var(--border-color, #E6AD00);;
+        border: 2px solid var(--border-color);
         border-radius: 8px;
         margin: 16px;
         padding: 12px;
@@ -48,6 +65,7 @@ export class MyCard extends LitElement {
         width: 100%;
         height: auto;
         border-radius: 4px;
+        object-fit: cover;
       }
 
       .card-content {
@@ -56,6 +74,10 @@ export class MyCard extends LitElement {
 
       .card-title {
         margin: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-height: 2.4em;
       }
 
       .card-description {
@@ -65,22 +87,18 @@ export class MyCard extends LitElement {
 
       .card button {
         display: none;
-        margin: 2px 0;
-      }
-
-      #control-wrapper button {
-        margin: 6px 0 0 6px;
-      }
-
-      .card button {
-        margin: 2px 0;
+        margin: 10px 0;
         padding: 10px 15px;
-        background-color: var(--button-color, #284C6E);
-        color: #fff;
+        background-color: var(--button-color);
+        color: #ffffff;
         font-size: 16px;
         text-decoration: none;
         border: none;
         border-radius: 4px;
+      }
+
+      #control-wrapper button {
+        margin: 6px 0 0 6px;
       }
 
       .card button:hover, #control-wrapper button:hover{
@@ -114,6 +132,15 @@ export class MyCard extends LitElement {
     `;
   }
 
+  openChanged(e) {
+    console.log(e.newState);
+    if (e.newState === "open") {
+      this.setAttribute('fancy', '');
+    } else {
+      this.removeAttribute('fancy');
+    }
+  }
+
   render() {
     return html`
     <div id="cardlist" class="card-list">
@@ -121,8 +148,16 @@ export class MyCard extends LitElement {
         <img src="${this.image}" alt="${this.title}" class="card-img">
         <div class="card-content">
           <h2 class="card-title">${this.title}</h2>
-          <p class="card-description">${this.bodyText}</p>
-          <a href="${this.link}"><button style="--button-color: ${this.buttonColor};">Details</button></a>
+          <p class="card-description"></p>
+          <details ?open="${this.fancy}" @toggle="${this.openChanged}">
+            <summary>Description</summary>
+            <div>
+              <slot>${this.bodyText}</slot>
+            </div>
+            <a href="${this.link}">
+              <button style="--button-color: ${this.buttonColor};">Details</button>
+            </a>
+          </details>
         </div>
       </section>
     </div>`;
@@ -130,12 +165,13 @@ export class MyCard extends LitElement {
 
   static get properties() {
     return {
-      title: { type: String },
-      image: { type: String },
-      bodyText: { type: String },
+      title: { type: String, reflect: true },
+      image: { type: String, reflect: true },
+      bodyText: { type: String, attribute: 'body-text' },
       link: { type: String },
-      borderColor: { type: String },
-      buttonColor: { type: String },
+      borderColor: { type: String, reflect: true },
+      buttonColor: { type: String, reflect: true },
+      fancy: { type: Boolean, reflect: true }
     };
   }
 }
