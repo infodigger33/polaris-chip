@@ -46,81 +46,98 @@
       transition: background-color 0.3s ease;
     }
 
+    #counter-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+
   </style>
   <title>my-card</title>
 </head>
 
 <body>
-  <h1>Mascots!</h1>
-  <h2>Controls</h2>
-  <h3>
+  <confetti-container id="confetti">
+    <h1>Counter!</h1>
+
+    <div id="counter-container">
+      <counter-app></counter-app>
+      <counter-app counter="16" min="10" max="25"></counter-app>
+    </div>
+
+    <h1>Mascots!</h1>
+    <h2>Controls</h2>
+    <h3>
     <button id="duplicate">Duplicate Last Card</button>
     <button id="changetext">Change Text</button>
     <button id="changeimage">Change Image</button>
     <button id="changebg">Change Background</button>
     <button id="delete">Delete Last Card</button>
-  </h3>
+    </h3>
 
-  <div id="cardlist">
-    <my-card title="Nittany Lion" image="https://cdn.vox-cdn.com/thumbor/5TzJl6L2AINY150a4hvd-7BNYZ0=/1400x1050/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/19591281/Nittany_Lion_100232.jpg" body-text="Mascot of Pennsylvania State University" link="https://iecp.la.psu.edu/fast-facts/whats-a-nittany-lion/" borderColor="#E6AD00" buttonColor="#284C6E"></my-card>
-    <my-card title="Brutus Buckeye" image="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Brutus_Buckeye_in_2017.jpg/500px-Brutus_Buckeye_in_2017.jpg" body-text="Mascot of The Ohio State University" link="https://ohiostatebuckeyes.com/sports/2018/6/4/brutus-buckeye" borderColor="#BB0000" buttonColor="#666666"></my-card>
-    <my-card title="Bevo" image="https://sportsdaydfw.imgix.net/1567791189-UTVW_AL041.JPG" body-text="Mascot of University of Texas at Austin" link="https://texassports.com/sports/2013/7/28/traditions_0728135205.aspx" borderColor="#BF5700" buttonColor="#333F48"></my-card>
-    <my-card title="The Oregon Duck" image="https://content.kgw.com/photo/2015/10/31/635555543046621545-ducks_460104_ver1.0.jpg" body-text="Mascot of University of Oregon" link="https://goducks.com/sports/2003/8/28/153778" borderColor="#154733" buttonColor="#FEE123"></my-card>
-    <my-card title="Rameses" image="https://blogs.lib.unc.edu/hill/wp-content/uploads/sites/2/2016/03/Current-Rameses-.jpg" body-text="Mascot of University of North Carolina at Chapel Hill" link="https://www.unc.edu/discover/the-story-of-rameses/" borderColor="#7BAFD4" buttonColor="#13294B"></my-card>
-  </div>
+  </confetti-container>
 
-  <script type="module" src="./src/my-card.js"></script>
+    <div id="cardlist">
+      <my-card title="Nittany Lion" image="https://cdn.vox-cdn.com/thumbor/5TzJl6L2AINY150a4hvd-7BNYZ0=/1400x1050/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/19591281/Nittany_Lion_100232.jpg" body-text="Mascot of Pennsylvania State University" link="https://iecp.la.psu.edu/fast-facts/whats-a-nittany-lion/" borderColor="#E6AD00" buttonColor="#284C6E"></my-card>
+      <my-card title="Brutus Buckeye" image="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Brutus_Buckeye_in_2017.jpg/500px-Brutus_Buckeye_in_2017.jpg" body-text="Mascot of The Ohio State University" link="https://ohiostatebuckeyes.com/sports/2018/6/4/brutus-buckeye" borderColor="#BB0000" buttonColor="#666666"></my-card>
+      <my-card title="Bevo" image="https://sportsdaydfw.imgix.net/1567791189-UTVW_AL041.JPG" body-text="Mascot of University of Texas at Austin" link="https://texassports.com/sports/2013/7/28/traditions_0728135205.aspx" borderColor="#BF5700" buttonColor="#333F48"></my-card>
+      <my-card title="The Oregon Duck" image="https://content.kgw.com/photo/2015/10/31/635555543046621545-ducks_460104_ver1.0.jpg" body-text="Mascot of University of Oregon" link="https://goducks.com/sports/2003/8/28/153778" borderColor="#154733" buttonColor="#FEE123"></my-card>
+      <my-card title="Rameses" image="https://blogs.lib.unc.edu/hill/wp-content/uploads/sites/2/2016/03/Current-Rameses-.jpg" body-text="Mascot of University of North Carolina at Chapel Hill" link="https://www.unc.edu/discover/the-story-of-rameses/" borderColor="#7BAFD4" buttonColor="#13294B"></my-card>
+    </div>
 
-  <script>
-    document.querySelector('#duplicate').addEventListener('click', function(event) {
-      const cards = document.querySelectorAll('my-card');
-      if (cards.length > 0 && cards.length < 10) {
-        const lastCard = cards[cards.length - 1];
-        const newCard = lastCard.cloneNode(true);
-        document.querySelector('#cardlist').appendChild(newCard);
-      }
-    });
-    
-    document.querySelector('#changetext').addEventListener('click', function (e) {
-      // Selecting the first 'my-card' element
-      const myCard = document.querySelector('my-card');
+    <script type="module" src="./src/my-card.js"></script>
+    <script type="module" src="./src/counter-app.js"></script>
 
-      // Updating content directly on the my-card element
-      myCard.title = "COOKIE MONSTER";
-      myCard.bodyText = "ME LOVE COOKIE";
-    });
-    
-    document.querySelector('#changeimage').addEventListener('click', function(e) {
-      // Selecting the first 'my-card' element
-      const myCard = document.querySelector('my-card');
+    <script>
+      document.querySelector('#duplicate').addEventListener('click', function(event) {
+        const cards = document.querySelectorAll('my-card');
+        if (cards.length > 0 && cards.length < 10) {
+          const lastCard = cards[cards.length - 1];
+          const newCard = lastCard.cloneNode(true);
+          document.querySelector('#cardlist').appendChild(newCard);
+        }
+      });
+      
+      document.querySelector('#changetext').addEventListener('click', function (e) {
+        // Selecting the first 'my-card' element
+        const myCard = document.querySelector('my-card');
 
-      // Updating the image source directly on the my-card element
-      myCard.image = 'https://hips.hearstapps.com/hmg-prod/images/sesame-street-muppet-cookie-monster-poses-for-photographs-news-photo-1701191526.jpg?crop=0.673xw:1.00xh;0.213xw,0&resize=1200:*';
-    });
-    
-    document.querySelector('#changebg').addEventListener('click', function (e) {
-      // Selecting all 'my-card' elements
-      const myCards = document.querySelectorAll('my-card');
+        // Updating content directly on the my-card element
+        myCard.title = "COOKIE MONSTER";
+        myCard.bodyText = "ME LOVE COOKIE";
+      });
+      
+      document.querySelector('#changeimage').addEventListener('click', function(e) {
+        // Selecting the first 'my-card' element
+        const myCard = document.querySelector('my-card');
 
-      myCards.forEach(myCard => {
-        // Accessing shadow DOM
-        const shadowRoot = myCard.shadowRoot;
-        // Selecting all '.card' elements inside shadow DOM
-        const cards = shadowRoot.querySelectorAll('.card');
+        // Updating the image source directly on the my-card element
+        myCard.image = 'https://hips.hearstapps.com/hmg-prod/images/sesame-street-muppet-cookie-monster-poses-for-photographs-news-photo-1701191526.jpg?crop=0.673xw:1.00xh;0.213xw,0&resize=1200:*';
+      });
+      
+      document.querySelector('#changebg').addEventListener('click', function (e) {
+        // Selecting all 'my-card' elements
+        const myCards = document.querySelectorAll('my-card');
 
-        cards.forEach(card => {
-          card.classList.toggle('change-color');
+        myCards.forEach(myCard => {
+          // Accessing shadow DOM
+          const shadowRoot = myCard.shadowRoot;
+          // Selecting all '.card' elements inside shadow DOM
+          const cards = shadowRoot.querySelectorAll('.card');
+
+          cards.forEach(card => {
+            card.classList.toggle('change-color');
+          });
         });
       });
-    });
 
-    document.querySelector('#delete').addEventListener('click', function(e) {
-      const cardList = document.querySelector('#cardlist');
-      
-      if (cardList.children.length > 1) {
-        cardList.lastElementChild.remove();
-      }
-    });
-  </script>
+      document.querySelector('#delete').addEventListener('click', function(e) {
+        const cardList = document.querySelector('#cardlist');
+        
+        if (cardList.children.length > 1) {
+          cardList.lastElementChild.remove();
+        }
+      });
+    </script>
 </body>
 </html>
