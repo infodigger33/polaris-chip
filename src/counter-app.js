@@ -15,7 +15,7 @@ export class CounterApp extends LitElement {
   static get styles() {
     return css`
       :host {
-        display: block;
+        display: bnpm lock;
         text-align: center;
       }
 
@@ -48,7 +48,7 @@ export class CounterApp extends LitElement {
         cursor: pointer;
       }
 
-      button:hover {
+      button:hover, button:focus {
         background-color: #2980b9;
         transition: background-color 0.3s ease;
       }

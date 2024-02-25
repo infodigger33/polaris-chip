@@ -1,81 +1,117 @@
 <!doctype html>
 <html lang="en">
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="Description" content="Boilerplate for my card">
-  <base href="/">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="Description" content="Boilerplate for my card">
+    <base href="/">
 
-  <style>
-    :root,
-    html,
-    body {
-      font-family: 'Arial', sans-serif;
-      margin: 0;
-      padding: 0;
-      align-items: center;
-      justify-content: center;
-      height: 500px;
-      background-color: #ededed;
-    }
+    <style>
+      :root,
+      html,
+      body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        align-items: center;
+        justify-content: center;
+        height: 500px;
+        background-color: #ededed;
+      }
 
-    h1, h2 {
-      margin: 12px;
-      padding: 4px;
-    }
+      h1, h2 {
+        margin: 12px;
+        padding: 4px;
+      }
 
-    h3 {
-      margin: 4px;
-      padding: 4px;
-    }
+      h3 {
+        margin: 4px;
+        padding: 4px;
+      }
 
-    h3 button {
-      margin: 6px;
-      padding: 10px 15px;
-      background-color: #000000;
-      color: #fff;
-      font-size: 16px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
+      h3 button {
+        margin: 6px;
+        padding: 10px 15px;
+        background-color: #000000;
+        color: #fff;
+        font-size: 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
 
-    h3 button:hover {
-      background-color: #747474;
-      transition: background-color 0.3s ease;
-    }
+      h3 button:hover {
+        background-color: #747474;
+        transition: background-color 0.3s ease;
+      }
 
-    #counter-container {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-    }
+      p {
+        margin: 8px;
+      }
 
-  </style>
-  <title>my-card</title>
-</head>
+      #counter-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+      }
 
-<body>
-  <confetti-container id="confetti">
-    <h1>Counter!</h1>
+    </style>
+    <title>my-card</title>
+  </head>
 
-    <div id="counter-container">
-      <counter-app></counter-app>
-      <counter-app counter="16" min="10" max="25"></counter-app>
-    </div>
+  <body>
+    <h1>Alert!</h1>
 
-    <h1>Mascots!</h1>
-    <h2>Controls</h2>
-    <h3>
-    <button id="duplicate">Duplicate Last Card</button>
-    <button id="changetext">Change Text</button>
-    <button id="changeimage">Change Image</button>
-    <button id="changebg">Change Background</button>
-    <button id="delete">Delete Last Card</button>
-    </h3>
+    <custom-alert status="notice" date="2024-02-24" sticky>
+      <h3>Something important is happening right now! Please read this message.</h3>
+      <p>ALERT MESSAGE</p>
+    </custom-alert>
 
-  </confetti-container>
+    <custom-alert status="warning" date="2024-02-24">
+      <h3>This is a warning message. Pay attention!</h3>
+      <p>ALERT MESSAGE</p>
+    </custom-alert>
+
+    <custom-alert status="alert" date="2024-02-24">
+      <h3>Alert! There is a critical situation that requires your immediate attention.</h3>
+      <p>ALERT MESSAGE</p>
+    </custom-alert>
+
+    <custom-alert id="color-changing-alert" status="notice" date="2024-02-24">
+      <h3>This alert changes colors using CSS variables!</h3>
+      <p>ALERT MESSAGE</p>
+    </custom-alert>
+
+    <script>
+      const colorChangingAlert = document.getElementById('color-changing-alert');
+      colorChangingAlert.style.setProperty('--notice-bg', 'green');
+      colorChangingAlert.style.setProperty('--notice-text', 'white');
+    </script>
+
+    <script type="module" src="./src/custom-alert.js"></script>
+
+    <confetti-container id="confetti">
+      <h1>Counter!</h1>
+
+      <div id="counter-container">
+        <counter-app></counter-app>
+        <counter-app counter="16" min="10" max="25"></counter-app>
+      </div>
+
+      <script type="module" src="./src/counter-app.js"></script>
+
+      <h1>Mascots!</h1>
+      <h2>Controls</h2>
+      <h3>
+      <button id="duplicate">Duplicate Last Card</button>
+      <button id="changetext">Change Text</button>
+      <button id="changeimage">Change Image</button>
+      <button id="changebg">Change Background</button>
+      <button id="delete">Delete Last Card</button>
+      </h3>
+
+    </confetti-container>
 
     <div id="cardlist">
       <my-card title="Nittany Lion" image="https://cdn.vox-cdn.com/thumbor/5TzJl6L2AINY150a4hvd-7BNYZ0=/1400x1050/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/19591281/Nittany_Lion_100232.jpg" body-text="Mascot of Pennsylvania State University" link="https://iecp.la.psu.edu/fast-facts/whats-a-nittany-lion/" borderColor="#E6AD00" buttonColor="#284C6E"></my-card>
@@ -86,7 +122,6 @@
     </div>
 
     <script type="module" src="./src/my-card.js"></script>
-    <script type="module" src="./src/counter-app.js"></script>
 
     <script>
       document.querySelector('#duplicate').addEventListener('click', function(event) {
@@ -97,7 +132,7 @@
           document.querySelector('#cardlist').appendChild(newCard);
         }
       });
-      
+        
       document.querySelector('#changetext').addEventListener('click', function (e) {
         // Selecting the first 'my-card' element
         const myCard = document.querySelector('my-card');
@@ -106,38 +141,38 @@
         myCard.title = "COOKIE MONSTER";
         myCard.bodyText = "ME LOVE COOKIE";
       });
-      
-      document.querySelector('#changeimage').addEventListener('click', function(e) {
-        // Selecting the first 'my-card' element
-        const myCard = document.querySelector('my-card');
+        
+        document.querySelector('#changeimage').addEventListener('click', function(e) {
+          // Selecting the first 'my-card' element
+          const myCard = document.querySelector('my-card');
 
-        // Updating the image source directly on the my-card element
-        myCard.image = 'https://hips.hearstapps.com/hmg-prod/images/sesame-street-muppet-cookie-monster-poses-for-photographs-news-photo-1701191526.jpg?crop=0.673xw:1.00xh;0.213xw,0&resize=1200:*';
-      });
-      
-      document.querySelector('#changebg').addEventListener('click', function (e) {
-        // Selecting all 'my-card' elements
-        const myCards = document.querySelectorAll('my-card');
+          // Updating the image source directly on the my-card element
+          myCard.image = 'https://hips.hearstapps.com/hmg-prod/images/sesame-street-muppet-cookie-monster-poses-for-photographs-news-photo-1701191526.jpg?crop=0.673xw:1.00xh;0.213xw,0&resize=1200:*';
+        });
+        
+        document.querySelector('#changebg').addEventListener('click', function (e) {
+          // Selecting all 'my-card' elements
+          const myCards = document.querySelectorAll('my-card');
 
-        myCards.forEach(myCard => {
-          // Accessing shadow DOM
-          const shadowRoot = myCard.shadowRoot;
-          // Selecting all '.card' elements inside shadow DOM
-          const cards = shadowRoot.querySelectorAll('.card');
+          myCards.forEach(myCard => {
+            // Accessing shadow DOM
+            const shadowRoot = myCard.shadowRoot;
+            // Selecting all '.card' elements inside shadow DOM
+            const cards = shadowRoot.querySelectorAll('.card');
 
-          cards.forEach(card => {
-            card.classList.toggle('change-color');
+            cards.forEach(card => {
+              card.classList.toggle('change-color');
+            });
           });
         });
-      });
 
-      document.querySelector('#delete').addEventListener('click', function(e) {
-        const cardList = document.querySelector('#cardlist');
-        
-        if (cardList.children.length > 1) {
-          cardList.lastElementChild.remove();
-        }
-      });
+        document.querySelector('#delete').addEventListener('click', function(e) {
+          const cardList = document.querySelector('#cardlist');
+          
+          if (cardList.children.length > 1) {
+            cardList.lastElementChild.remove();
+          }
+        });
     </script>
-</body>
+  </body>
 </html>
