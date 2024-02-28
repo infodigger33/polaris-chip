@@ -7,8 +7,6 @@ export class CustomAlert extends LitElement {
 
   constructor() {
     super();
-    this.closedHeight = '50px';
-    this.openHeight = '200px';
     this.open = true;
     this.status = 'notice';
     this.date = '';
@@ -18,50 +16,50 @@ export class CustomAlert extends LitElement {
     const storedStatus = localStorage.getItem('alertStatus');
     if (storedStatus === 'closed') {
       this.open = false;
-      this.style.setProperty('--alert-height', this.closedHeight);
+      this.style.setProperty('--custom-alert-height', '50px');
     }
   }
 
   static get styles() {
     return css`
-      :host([sticky]) .alert-content {
+      :host([sticky]) {
         position: sticky;
         top: 0;
         z-index: 1000;
       }
 
+      :host([open]) .alert-content {
+        max-height: var(--custom-alert-height);
+      }
+
       :host([status="notice"]) .alert-content {
-        background-color: var(--notice-bg, #3498db);
+        background-color: var(--custom-alert-notice-bg, var(--custom-alert-bg, #3498db));
       }
 
       :host([status="warning"]) .alert-content {
-        background-color: var(--warning-bg, #f39c12);
+        background-color: var(--custom-alert-warning-bg, var(--custom-alert-bg, #f39c12));
       }
 
       :host([status="alert"]) .alert-content {
-        background-color: var(--alert-bg, #e74c3c);
+        background-color: var(--custom-alert-alert-bg, var(--custom-alert-bg, #e74c3c));
       }
 
       .alert-content {
         padding: 10px;
-        max-height: var(--alert-height);
+        height: var(--custom-alert-height, 100px);
         overflow: hidden;
-        transition: max-height 0.3s ease;
-        color: #fff
+        transition: all 0.3s ease;
+        color: #fff;
       }
 
       .closed .alert-content {
-        max-height: var(--closed-height);
+        height: var(--custom-alert-closed-height, var(--custom-alert-height, 50px));
       }
 
       @media (max-width: 600px) {
         :host([sticky]) .alert-content {
           position: sticky;
           top: 0;
-        }
-
-        .closed .alert-content {
-          max-height: var(--closed-height);
         }
       }
 
@@ -76,22 +74,15 @@ export class CustomAlert extends LitElement {
   }
 
   toggleAlert() {
-    if (this.sticky && !this.open) {
-      this.open = true;
-      this.style.setProperty('--alert-height', this.openHeight);
-      // Remove localStorage value when opening the alert
-      localStorage.removeItem('alertStatus');
+    this.open = !this.open;
+
+    if (!this.open) {
+      this.style.setProperty('--custom-alert-height', '50px');
+      localStorage.setItem('alertStatus', 'closed');
     } else {
-      this.open = !this.open;
-      if (this.open) {
-        this.style.setProperty('--alert-height', this.openHeight);
-      } else {
-        this.style.setProperty('--alert-height', this.closedHeight);
-        // Store the closed status in localStorage
-        localStorage.setItem('alertStatus', 'closed');
-      }
+      this.style.removeProperty('--custom-alert-height');
+      localStorage.removeItem('alertStatus');
     }
-    this.requestUpdate();
   }
 
   render() {
@@ -112,8 +103,6 @@ export class CustomAlert extends LitElement {
       status: { type: String },
       date: { type: String },
       sticky: { type: Boolean, reflect: true },
-      closedHeight: { type: String },
-      openHeight: { type: String },
     };
   }
 }
