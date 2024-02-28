@@ -56,18 +56,16 @@ export class CustomAlert extends LitElement {
         height: var(--custom-alert-closed-height, var(--custom-alert-height, 50px));
       }
 
-      @media (max-width: 600px) {
+      /* @media (max-width: 600px) {
         :host([sticky]) .alert-content {
-          position: sticky;
-          top: 0;
         }
-      }
+      } */
 
-      .toggle-button {
+      .toggle-button, .toggle-button:focus{
         cursor: pointer;
         border: none;
         background: none;
-        color: #fff;
+        color: #fff;  
         font-size: 14px;
       }
     `;
@@ -88,9 +86,9 @@ export class CustomAlert extends LitElement {
   render() {
     return html`
       <div class="alert-content ${this.open ? '' : 'closed'}" ?sticky="${this.sticky}">
-        <div class="toggle-button" @click="${this.toggleAlert}">
+        <button class="toggle-button" @click="${this.toggleAlert}">
           ${this.open ? 'Close' : 'Open'} Alert
-        </div>
+        </button>
         <slot></slot>
         <div class="date">${this.date}</div>
       </div>
