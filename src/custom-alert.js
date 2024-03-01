@@ -50,18 +50,40 @@ export class CustomAlert extends LitElement {
         overflow: hidden;
         transition: all 0.3s ease;
         color: #fff;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
       }
 
       .closed .alert-content {
         height: var(--custom-alert-closed-height, var(--custom-alert-height, 50px));
       }
 
-      /* @media (max-width: 600px) {
-        :host([sticky]) .alert-content {
-        }
-      } */
+      .left-section,
+      .right-section {
+        flex: 1;
+      }
 
-      .toggle-button, .toggle-button:focus{
+      .middle-section {
+        flex: 3;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* Adjust styles for text content inside the middle-section */
+      .middle-section slot {
+        text-align: center;
+      }
+
+      .right-section {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .toggle-button, .toggle-button:focus {
         cursor: pointer;
         border: none;
         background: none;
@@ -86,11 +108,20 @@ export class CustomAlert extends LitElement {
   render() {
     return html`
       <div class="alert-content ${this.open ? '' : 'closed'}" ?sticky="${this.sticky}">
-        <button class="toggle-button" @click="${this.toggleAlert}">
-          ${this.open ? 'Close' : 'Open'} Alert
-        </button>
-        <slot></slot>
-        <div class="date">${this.date}</div>
+        <div class="left-section">
+          <div class="date">${this.date}</div>
+        </div>
+
+        <div class="middle-section">
+          <h3><slot name="title"></slot></h3>
+          ${this.open ? html`<slot></slot>` : ''}
+        </div>
+
+        <div class="right-section">
+          <button class="toggle-button" @click="${this.toggleAlert}">
+            ${this.open ? 'Close' : 'Open'} Alert
+          </button>
+        </div>
       </div>
     `;
   }
