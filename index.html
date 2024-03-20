@@ -19,16 +19,6 @@
         background-color: #ededed;
       }
 
-      h1, h2 {
-        margin: 12px;
-        padding: 4px;
-      }
-
-      h3 {
-        margin: 4px;
-        padding: 4px;
-      }
-
       h3 button {
         margin: 6px;
         padding: 10px 15px;
@@ -45,10 +35,6 @@
         transition: background-color 0.3s ease;
       }
 
-      p {
-        margin: 8px;
-      }
-
       #counter-container {
         display: flex;
         flex-direction: row;
@@ -60,9 +46,16 @@
   </head>
 
   <body>
+    <h1>Party!</h1>
+
+    <rpg-character>
+    </rpg-character>
+
+    <script type="module" src="./src/party-ui.js"></script>
+
     <h1>Alert!</h1>
 
-    <campus-alert sticky status="notice" date="Feburary 18, 2024 12:00AM">
+    <campus-alert status="notice" date="Feburary 18, 2024 12:00AM">
       I genuinely cannot wait
     </campus-alert>
 
