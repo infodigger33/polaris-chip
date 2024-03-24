@@ -21,12 +21,12 @@ export class PartyUI extends DDD {
           position: relative;
           border: 1px solid var(--ddd-theme-default-beaver70);
           border-radius: 10px;
-          padding: 0px 20px 20px;
+          padding: 0px 20px 25px 20px;
           box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
           max-width: 600px;
           margin: 0 auto;
           width: 100vw;
-          height: 41.5vh;
+          height: 48vh;
         }
 
         .add-user-container {
@@ -96,7 +96,6 @@ export class PartyUI extends DDD {
           height: auto;
           width: auto;
           margin-right: 10px;
-          margin-bottom: 10px;
           padding: 10px;
           border: 1px solid #ccc;
           border-radius: 5px;
@@ -110,16 +109,29 @@ export class PartyUI extends DDD {
         .card-container button {
           background-color: #f9f9f9;
           border: none;
+          border-radius: 5px;
           cursor: pointer;
         }
 
-        button.save-button {
-          padding: 10px 20px;
+        .card-container button:hover, .card-container button:focus {
+          transition: ease 0.3;
+          background-color: #bebebe;
+        }
+
+        #save-button {
+          position: relative;
+          padding: 10px;
+          width: 100%;
           background-color: #28a745;
           color: #fff;
           border: none;
           border-radius: 5px;
           cursor: pointer;
+        }
+
+        #save-button:hover, #save-button:focus {
+          transition: ease 0.3s;
+          background-color: #1b6c2e;
         }
     `];
   }
@@ -134,7 +146,7 @@ export class PartyUI extends DDD {
           <button id="add-button" @click="${this.addUser}">►</button>
         </div>
         <div class="current-user-container">
-        <p><span>Current Users:</span></p>        
+          <p><span>Current Users:</span></p>        
           <div class="scroll-container">
             <div class="card-container">
               <button @click="${this.userInfo}"><rpg-character></rpg-character></button>
@@ -151,6 +163,7 @@ export class PartyUI extends DDD {
             </div>
           </div>
         </div>
+        <button id="save-button">Save Party</button>
       </div>
     `;
   }
