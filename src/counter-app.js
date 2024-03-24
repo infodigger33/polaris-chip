@@ -116,4 +116,4 @@ export class CounterApp extends LitElement {
   }
 }
 
-customElements.define(CounterApp.tag, CounterApp);
+globalThis.customElements.define(CounterApp.tag, CounterApp);
