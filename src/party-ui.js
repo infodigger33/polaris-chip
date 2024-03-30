@@ -9,7 +9,7 @@ export class PartyUI extends DDD {
 
   constructor() {
     super();
-    this.users = [];
+    this.users = ["cj"];
     this.userInput = '';
   }
 
@@ -21,12 +21,11 @@ export class PartyUI extends DDD {
           position: relative;
           border: 1px solid var(--ddd-theme-default-beaver70);
           border-radius: 10px;
+          margin: 5px auto;
           padding: 0px 20px 25px 20px;
           box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-          max-width: 600px;
-          margin: 0 auto;
-          width: 100vw;
-          height: 48vh;
+          height: auto;
+          max-width: var(--party-ui-party-container-max-width, 600px);
         }
 
         .add-user-container {
@@ -73,12 +72,18 @@ export class PartyUI extends DDD {
           border-radius: 5px;
           background-color: #007bff;
           color: #fff;
+          transition: background-color 0.3s ease;
           cursor: pointer;
         }
 
         #add-button:hover, #add-button:focus {
           transition: ease 0.3s;
           background-color: #005ec2;
+        }
+
+        #add-button:disabled{
+          background-color: #bdc3c7;
+          cursor: not-allowed;
         }
 
         .current-user-container {
@@ -95,7 +100,8 @@ export class PartyUI extends DDD {
           vertical-align: top;
           height: auto;
           width: auto;
-          margin-right: 10px;
+          margin-right: 2.5px;
+          margin-bottom: 2.5px;
           padding: 10px;
           border: 1px solid #ccc;
           border-radius: 5px;
@@ -120,12 +126,15 @@ export class PartyUI extends DDD {
 
         #save-button {
           position: relative;
+          margin-top: 2.5px;
+          margin-bottom: 2.5px;
           padding: 10px;
           width: 100%;
-          background-color: #28a745;
-          color: #fff;
           border: none;
           border-radius: 5px;
+          background-color: #28a745;
+          color: #fff;
+          transition: background-color 0.3s ease;
           cursor: pointer;
         }
 
@@ -138,41 +147,103 @@ export class PartyUI extends DDD {
 
   render() {
     return html`
-      <div class="party-container">
-        <div class="add-user-container">
-          <p><span>Add User:</span></p>
-          <input type="text" class="text-input" value=${this.userInput}>
-          <button id="close-button">✕</button>        
-          <button id="add-button" @click="${this.addUser}">►</button>
-        </div>
-        <div class="current-user-container">
-          <p><span>Current Users:</span></p>        
-          <div class="scroll-container">
-            <div class="card-container">
-              <button @click="${this.userInfo}"><rpg-character></rpg-character></button>
-              <button @click="${this.userInfo}"><rpg-character></rpg-character></button>
-              <button @click="${this.userInfo}"><rpg-character></rpg-character></button>
-              <button @click="${this.userInfo}"><rpg-character></rpg-character></button>
-              <button @click="${this.userInfo}"><rpg-character></rpg-character></button>
-              <button @click="${this.userInfo}"><rpg-character></rpg-character></button>
-              <button @click="${this.userInfo}"><rpg-character></rpg-character></button>
-              <button @click="${this.userInfo}"><rpg-character></rpg-character></button>
-              <button @click="${this.userInfo}"><rpg-character></rpg-character></button>
-              <button @click="${this.userInfo}"><rpg-character></rpg-character></button>
-              <button @click="${this.userInfo}"><rpg-character></rpg-character></button>
+      <confetti-container id="confetti">
+        <div class="party-container">
+          <div class="add-user-container">
+            <p><span>Add User:</span></p>
+            <input type="text" class="text-input" .value=${this.userInput} @input="${this.handleInput}">
+            <button id="close-button" @click="${this.confirmClose}">✕</button>        
+            <button id="add-button" ?disabled="${this.userInput === ''}" @click="${this.addUser}">►</button>
+          </div>
+          <div class="current-user-container">
+            <p><span>Current Users:</span></p>        
+            <div class="scroll-container">
+              ${this.users.map(user => html`
+                <div class="card-container">
+                  <button @click="${() => this.deleteUser(user)}">
+                    <rpg-character seed="${user}"></rpg-character>
+                    <p>${user}</p>
+                  </button>
+                </div>
+              `)}       
             </div>
           </div>
+          <button id="save-button" @click="${this.saveParty}">Save Party</button>
         </div>
-        <button id="save-button">Save Party</button>
-      </div>
+      </confetti-container>
     `;
+  }  
+
+  handleInput(event) {
+    const userInput = event.target.value;
+    const invalidCharacter = userInput.match(/[^a-z0-9]/g);
+  
+    if (invalidCharacter) {
+      alert(`The character "${invalidCharacter[0]}" is not allowed. Please use only lowercase letters and numbers.`);
+      event.target.value = userInput.replace(invalidCharacter[0], '');
+    } else {
+      this.userInput = userInput;
+    }
+  }
+
+  confirmClose() {
+    if (confirm('Are you sure you want to close the page?')) {
+      const partyContainer = this.shadowRoot.querySelector('.party-container');
+      partyContainer.parentNode.remove();
+    }
+  }
+
+  addUser() {
+    if (this.userInput !== '') {
+      if (this.users.includes(this.userInput)) {
+        alert(`User "${this.userInput}" already exists.`);
+      } else {
+        this.users = [...this.users, this.userInput];
+      }
+      this.userInput = '';
+    }
+  }
+
+  deleteUser(userToDelete) {
+    const confirmed = confirm(`Are you sure you want to delete the character "${userToDelete}"?`);
+
+    if (confirmed) {
+      const index = this.users.indexOf(userToDelete);
+      if (index !== -1) {
+        this.users.splice(index, 1);
+        this.users = [...this.users];
+      }   
+    }
+  }
+
+  saveParty() {
+    if (this.users.length === 0) {
+      alert('Saved the party with no users');
+    } else if (this.users.length === 1) {
+      alert(`Saving party with user: ${this.users}`);
+    } else if (this.users.length === 2) {
+      alert(`Saving party with users: ${this.users.join(' and ')}`);
+    } else {
+      const usersExceptLast = this.users.slice(0, -1).join(', ');
+      const lastUser = this.users[this.users.length - 1];
+      alert(`Saving party with users: ${usersExceptLast}, and ${lastUser}`);
+    }
+
+    this.makeItRain();  
+  }
+
+  makeItRain() {
+    import('@lrnwebcomponents/multiple-choice/lib/confetti-container.js').then((module) => {
+      setTimeout(() => {
+        this.shadowRoot.querySelector("#confetti").setAttribute("popped", "");
+      }, 0);
+    });
   }
 
   static get properties() {
     return {
       ...super.properties,
-      title: { type: String },
-      users: { type: Array, reflect: true },
+      users: { type: Array },
       userInput: { type: String, reflect: true },
     }
   }
