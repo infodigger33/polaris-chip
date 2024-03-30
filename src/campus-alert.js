@@ -104,8 +104,8 @@ export class CampusAlert extends LitElement {
         width: 0;
         height: 0;
         position: absolute;
-        bottom: 2rem;
-        left: -2rem;
+        bottom: 1.5rem;
+        left: -1.5rem;
         border-left: 35px solid transparent;
         border-right: 0px solid transparent;
       }
