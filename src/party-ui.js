@@ -9,7 +9,7 @@ export class PartyUI extends DDD {
 
   constructor() {
     super();
-    this.users = ["cj"];
+    this.users = ["groovyspoon"];
     this.userInput = '';
   }
 
@@ -176,16 +176,20 @@ export class PartyUI extends DDD {
 
   handleInput(event) {
     const userInput = event.target.value;
-    const invalidCharacter = userInput.match(/[^a-z0-9]/g);
-  
-    if (invalidCharacter) {
-      alert(`The character "${invalidCharacter[0]}" is not allowed. Please use only lowercase letters and numbers.`);
-      event.target.value = userInput.replace(invalidCharacter[0], '');
+    if (userInput.length > 16) {
+      alert('Maximum character limit exceeded. Please enter a maximum of 16 characters.');
+      event.target.value = userInput.slice(0, 16);
     } else {
-      this.userInput = userInput;
+      const invalidCharacter = userInput.match(/[^a-z0-9]/g);
+      if (invalidCharacter) {
+        alert(`The character "${invalidCharacter[0]}" is not allowed. Please use only lowercase letters and numbers.`);
+        event.target.value = userInput.replace(invalidCharacter[0], '');
+      } else {
+        this.userInput = userInput;
+      }
     }
   }
-
+  
   confirmClose() {
     if (confirm('Are you sure you want to close the page?')) {
       const partyContainer = this.shadowRoot.querySelector('.party-container');
@@ -228,7 +232,6 @@ export class PartyUI extends DDD {
       const lastUser = this.users[this.users.length - 1];
       alert(`Saving party with users: ${usersExceptLast}, and ${lastUser}`);
     }
-
     this.makeItRain();  
   }
 
