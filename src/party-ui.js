@@ -9,7 +9,7 @@ export class PartyUI extends DDD {
 
   constructor() {
     super();
-    this.users = ["groovyspoon"];
+    this.users = [];
     this.userInput = '';
   }
 
@@ -20,74 +20,80 @@ export class PartyUI extends DDD {
         .party-container {
           position: relative;
           border: 1px solid var(--ddd-theme-default-beaver70);
-          border-radius: 10px;
-          margin: 5px auto;
-          padding: 0px 20px 25px 20px;
-          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-          height: auto;
+          border-radius: var(--ddd-radius-sm);
+          margin: var(--party-ui-party-container-margin, auto);
+          padding: var(--ddd-spacing-0) var(--ddd-spacing-5) var(--ddd-spacing-6) var(--ddd-spacing-5);
+          box-shadow: var(--party-ui-party-container-box-shadow, 0px 0px 10px rgba(0, 0, 0, 0.1));
+          height: var(--party-ui-party-container-height, auto);
           max-width: var(--party-ui-party-container-max-width, 600px);
         }
 
         .add-user-container {
           position: relative;
-          margin-bottom: 20px;
+          margin-bottom: var(--ddd-spacing-0);
         }
 
-        .add-user-container p, .current-user-container p {
-          margin-bottom: 5px;
+        .add-user-container p {
+          margin-bottom: var(--ddd-spacing-1);
           font-weight: bold;
         }
         
         .text-input {
-          width: calc(100% - 110px);
-          margin-right: 10px;
-          padding: 8px;
-          border: 1px solid #ccc;
-          border-radius: 5px;
+          width: var(--party-ui-text-input-width, calc(100% - 106px));
+          margin-right: var(--ddd-spacing-2);
+          padding: var(--ddd-spacing-2);
+          border: 1px solid var(--ddd-theme-default-limestoneLight);
+          border-radius: var(--ddd-radius-xs);
+          background-color: var(--simple-colors-default-theme-grey-1);
         }
 
         #close-button {
           position: absolute;
           top: 0;
           right: 0;
-          width: 30px;
-          height: 20px;
-          background-color: red;
-          color: white;
-          border: none;
-          border-radius: 5px;
+          width: var(--ddd-spacing-7);
+          height: var(--ddd-spacing-5);
+          background-color: var(--simple-colors-default-theme-red-7);
+          color: var(--ddd-theme-default-white);
+          border: var(--ddd-border-none);
+          border-radius: var(--ddd-radius-xs);
+          transition: background-color ease 0.3s;
           cursor: pointer;
-        }
+        } 
 
         #close-button:hover, #close-button:focus {
-          transition: ease 0.3s;
-          background-color: #c00000;
+          background-color: var(--simple-colors-default-theme-red-8);
         }
 
         #add-button {
           position: absolute;
           right: 0;
-          padding: 8.5px 30px;
-          border: none;
-          border-radius: 5px;
-          background-color: #007bff;
-          color: #fff;
+          padding: var(--ddd-spacing-2) var(--ddd-spacing-8);
+          border: 1px solid var(--ddd-theme-default-limestoneLight);
+          border-radius: var(--ddd-radius-xs);
+          background-color: var(--simple-colors-default-theme-light-blue-7);
+          color: var(--ddd-theme-default-white);
           transition: background-color 0.3s ease;
           cursor: pointer;
         }
 
         #add-button:hover, #add-button:focus {
-          transition: ease 0.3s;
-          background-color: #005ec2;
+          background-color: var(--simple-colors-default-theme-light-blue-8);
         }
 
         #add-button:disabled{
-          background-color: #bdc3c7;
+          background-color: var(--ddd-theme-default-limestoneGray);
           cursor: not-allowed;
         }
 
         .current-user-container {
-          margin-bottom: 20px;
+          margin-bottom: var(--ddd-spacing-2);
+        }
+
+        .current-user-container p {
+          margin-top: var(--ddd-spacing-5);
+          margin-bottom: var(--ddd-spacing-1);
+          font-weight: bold;
         }
 
         .scroll-container {
@@ -98,49 +104,46 @@ export class PartyUI extends DDD {
         .card-container {
           display: inline-block;
           vertical-align: top;
-          height: auto;
-          width: auto;
-          margin-right: 2.5px;
-          margin-bottom: 2.5px;
-          padding: 10px;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-          background-color: #f9f9f9;
+          height: var(--party-ui-card-container-height, auto);
+          width: var(--party-ui-card-container-width, auto);
+          margin-right: var(--ddd-spacing-2);
+          margin-bottom: var(--ddd-spacing-2);
+          padding: var(--ddd-spacing-2);
+          border: 1px solid var(--ddd-theme-default-limestoneLight);
+          border-radius: var(--ddd-radius-xs);
+          background-color: var(--simple-colors-default-theme-grey-1);
         }
 
         .card-container p {
-          margin: 5px 0;
+          margin: var(--ddd-spacing-1) var(--ddd-spacing-0);
         }
 
         .card-container button {
-          background-color: #f9f9f9;
-          border: none;
-          border-radius: 5px;
+          background-color: var(--simple-colors-default-theme-grey-1);
+          border: var(--ddd-border-none);
+          border-radius: var(--ddd-radius-xs);
+          transition: background-color ease 0.3s;
           cursor: pointer;
         }
 
         .card-container button:hover, .card-container button:focus {
-          transition: ease 0.3;
-          background-color: #bebebe;
+          background-color: var(--simple-colors-default-theme-grey-4);
         }
 
         #save-button {
           position: relative;
-          margin-top: 2.5px;
-          margin-bottom: 2.5px;
-          padding: 10px;
-          width: 100%;
-          border: none;
-          border-radius: 5px;
-          background-color: #28a745;
-          color: #fff;
-          transition: background-color 0.3s ease;
+          padding: var(--party-ui-save-button-padding, 10px);
+          width: var(--party-ui-save-button-width, 100%);
+          border: var(--ddd-border-none);
+          border-radius: var(--ddd-radius-xs);
+          background-color: var(--simple-colors-default-theme-green-7);
+          color: var(--ddd-theme-default-white);
+          transition: background-color ease 0.3s;
           cursor: pointer;
         }
 
         #save-button:hover, #save-button:focus {
-          transition: ease 0.3s;
-          background-color: #1b6c2e;
+          background-color: var(--simple-colors-default-theme-green-9);
         }
     `];
   }
@@ -161,7 +164,7 @@ export class PartyUI extends DDD {
               ${this.users.map(user => html`
                 <div class="card-container">
                   <button @click="${() => this.deleteUser(user)}">
-                    <rpg-character seed="${user}"></rpg-character>
+                    <rpg-character hat="random" seed="${user}"></rpg-character>
                     <p>${user}</p>
                   </button>
                 </div>
